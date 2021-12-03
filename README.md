@@ -1,1 +1,1 @@
-# python_epam
+# Site for checking the originality of texts
