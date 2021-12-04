@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Check the text{% endblock %}
+
+
+{% block body %}
+<form action="test" method="POST">
+    <fieldset>
+      <legend>Enter data</legend>
+      <label>Author:<br><input type="text" name="author"></label><br>
+      <label>Text:<br><textarea type="text" name="text"></textarea></label><br>
+    </fieldset>
+    <input type="submit">
+  </form>
+{% endblock %}
