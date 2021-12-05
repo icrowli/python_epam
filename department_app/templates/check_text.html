@@ -5,12 +5,13 @@
 
 
 {% block body %}
-<form action="test" method="POST">
+<form method="POST">
     <fieldset>
       <legend>Enter data</legend>
-      <label>Author:<br><input type="text" name="author"></label><br>
-      <label>Text:<br><textarea type="text" name="text"></textarea></label><br>
+      <input type="text" name="author" id="author" placeholder="Author"><br>
+      <input type="text" name="title" id="title" placeholder="Title"><br>
+      <textarea type="text" name="text" id="text" placeholder="Text"></textarea><br>
     </fieldset>
-    <input type="submit">
+    <input type="submit" value="Send">
   </form>
 {% endblock %}
