@@ -8,8 +8,9 @@
 <div class="text">
     <h1>Автори</h1>
     <hr>
-    <a href="author.html">crowli</a> · <a href="site.com/link_to_the_author">roma</a> 
+    · 
+    {% for author in authors %}
+    <a href="/author/{{author.id}}">{{author.name}}</a> ·
+    {% endfor %} 
 </div>
 {% endblock %}
-
-

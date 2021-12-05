@@ -22,7 +22,7 @@ class Texts(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     title = db.Column(db.Text, nullable = False)
     text = db.Column(db.Text, nullable = False)
-    date = db.Column(db.String(50), nullable = False, default = datetime.utcnow)
+    date = db.Column(db.String(50), nullable = False, default = datetime.utcnow())
     unique = db.Column(db.Integer, nullable = False)
 
     author_id = db.Column(db.Integer, db.ForeignKey('authors.id'))
@@ -31,12 +31,32 @@ class Texts(db.Model):
 @app.route('/')
 @app.route('/texts/')
 def texts():
-    return render_template('texts.html')
+    texts = Texts.query.order_by(Texts.date.desc()).all() #get all texts, order by date
+    authors = Authors.query.all() #get all authors, order by id
+
+    return render_template('texts.html', texts = texts, authors = authors)
 
 
 @app.route('/authors/')
 def authors():
-    return render_template('authors.html')
+    authors = Authors.query.all() #get all authors, order by id
+
+    return render_template('authors.html', authors = authors)
+
+
+@app.route('/author/<int:id>')
+def author(id):
+    author = Authors.query.get(id) #get author
+    texts = Texts.query.filter(Texts.author_id == id).all() #get all the texts of the author 
+
+    return render_template('author.html', author = author, texts = texts)
+
+
+@app.route('/text/<int:id>')
+def text(id):
+    text = Texts.query.get(id) #get text
+
+    return render_template('text.html', text = text)
 
 
 @app.route('/about/')
@@ -77,7 +97,6 @@ def check_text():
 
             try:
                 db.session.add(authors)
-                db.session.commit()
             except:
                 return "Error"
         
@@ -89,13 +108,14 @@ def check_text():
         else:
             author_id = Authors.query.filter(Authors.name == author).first().id #get the author ID 
 
-            texts = Texts(title = title, text = text, unique = originality_scope, author_id = author_id)
+            texts = Texts(title = title, text = text, unique = round(originality_scope, 2), author_id = author_id)
 
             try:
+                db.session.commit()
                 db.session.add(texts)
                 db.session.commit()
 
-                return redirect('/')
+                return redirect('/texts/')
             except:
                 return "Error"
 
